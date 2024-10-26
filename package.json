@@ -1,0 +1,23 @@
+{
+  "name": "awa",
+  "version": "1.0.0",
+  "main": "index.ejs",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-async-errors": "^3.1.1",
+    "express-ejs-layouts": "^2.5.1",
+    "mysql2": "^3.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}

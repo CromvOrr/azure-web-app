@@ -1,0 +1,71 @@
+<script>
+  function addDeleteFunctionality() {
+    const deleteButtons = document.querySelectorAll(".delete-button");
+    deleteButtons.forEach((button) => {
+      button.removeEventListener("click", handleDelete);
+      button.addEventListener("click", handleDelete);
+    });
+  }
+
+  async function handleDelete(event) {
+    const id = this.getAttribute("data-id");
+    try {
+      const response = await fetch(`/delete/${id}`, { method: "DELETE" });
+      if (response.ok) {
+        const gameItem = document.getElementById(`game-${id}`);
+        if (gameItem) {
+          gameItem.remove();
+        }
+      } else {
+        alert("Failed to delete game");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  document
+    .getElementById("search-input")
+    .addEventListener("keyup", async function () {
+      const query = this.value;
+      try {
+        const response = await fetch(`/search?query=${query}`, {
+          method: "GET",
+        });
+        if (response.ok) {
+          const games = await response.json();
+          const gameList = document.getElementById("game-list");
+          gameList.innerHTML = "";
+
+          if (games.length === 0) {
+            const noResultsMessage = document.createElement("p");
+            noResultsMessage.textContent = "No results found";
+            gameList.appendChild(noResultsMessage);
+          } else {
+            games.forEach((game) => {
+              const listItem = document.createElement("li");
+              listItem.id = `game-${game.id}`;
+              listItem.innerHTML = `
+              <a>
+                <h3>${game.title}</h3>
+                <p>${game.platform}</p>
+                <p>${game.date_acquired}</p>
+              </a>
+            `;
+              gameList.appendChild(listItem);
+            });
+            addDeleteFunctionality();
+          }
+        } else {
+          document.getElementById("game-list").innerHTML =
+            '<p id="no-res">No results found</p>';
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("game-list").innerHTML =
+          "<p>Error fetching results</p>";
+      }
+    });
+
+  addDeleteFunctionality();
+</script>

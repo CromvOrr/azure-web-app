@@ -1,0 +1,76 @@
+<section class="home">
+  <div class="home-content">
+    <h3>Yo, wanna check out my</h3>
+    <h1>Games Collection<span id="white">?</span></h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nunc id
+      felis accumsan luctus. Quisque convallis felis luctus, sagittis est quis,
+      dignissim orci. Integer accumsan posuere augue, vitae pharetra augue
+      viverra ut. Cras cursus ante in malesuada lacinia. Donec tellus purus,
+      interdum sit amet semper ut, auctor eu nunc. Fusce ut nunc eget velit
+      condimentum ornare nec nec sem. Fusce fringilla lacus dui, a dignissim
+      urna dictum in. Proin non velit mauris. Quisque at augue mattis, finibus
+      libero eget, rutrum sapien. Nam tempor faucibus molestie. Etiam
+      ullamcorper risus ac orci tempor rhoncus. Phasellus molestie, justo eget
+      dapibus vulputate, massa sem suscipit eros, placerat iaculis ex justo at
+      ipsum. Etiam sed ligula quis lorem suscipit finibus. Curabitur vel nunc
+      sit amet mi euismod elementum ac vel neque. Ut faucibus purus aliquet,
+      placerat risus eu, fermentum nunc. Aenean molestie pharetra orci
+      tincidunt.
+    </p>
+    <div class="button">
+      <a href="#more"
+        ><span class="material-symbols-outlined"
+          >keyboard_double_arrow_down</span
+        ></a
+      >
+    </div>
+  </div>
+</section>
+
+<section id="more" class="more">
+  <div class="more-content">
+    <div class="button">
+      <a href="#"
+        ><span class="material-symbols-outlined"
+          >keyboard_double_arrow_up</span
+        ></a
+      >
+    </div>
+
+    <h2 id="search-look">Search</h2>
+
+    <div class="search-bar">
+      <span id="search-icon" class="material-symbols-outlined"> search </span>
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Enter Title or Platform..."
+      />
+    </div>
+
+    <div class="game-header">
+      <li>
+        <a>
+          <p id="header-title">Title</p>
+          <p>Platform</p>
+          <p>Purchase Date</p>
+        </a>
+      </li>
+      <div class="horizontal-bar"></div>
+    </div>
+    <div class="game-container">
+      <ul class="game-ul" id="game-list">
+        <% games.forEach(game => { %>
+        <li id="game-<%= game.id %>">
+          <a>
+            <h3><%= game.title %></h3>
+            <p><%= game.platform %></p>
+            <p><%= game.date_acquired %></p>
+          </a>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</section>
