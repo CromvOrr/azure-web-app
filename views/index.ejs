@@ -45,7 +45,7 @@
       <input
         type="text"
         id="search-input"
-        placeholder="Enter Title or Platform..."
+        placeholder="Enter Title or Platform"
       />
     </div>
 
@@ -59,6 +59,15 @@
       </li>
       <div class="horizontal-bar"></div>
     </div>
+
+    <% function formatDate(date) { 
+      const d = new Date(date); 
+      const day = String(d.getDate() + 1).padStart(2, '0'); 
+      const month = String(d.getMonth() + 1).padStart(2, '0'); 
+      const year = d.getFullYear(); 
+      return `${day}.${month}.${year}`; 
+    } %>
+
     <div class="game-container">
       <ul class="game-ul" id="game-list">
         <% games.forEach(game => { %>
@@ -66,7 +75,7 @@
           <a>
             <h3><%= game.title %></h3>
             <p><%= game.platform %></p>
-            <p><%= game.date_acquired %></p>
+            <p><%= formatDate(game.date_acquired) %></p>
           </a>
         </li>
         <% }) %>

@@ -54,6 +54,9 @@ module.exports.addOrEditGame = async (obj, id = 0) => {
       [newGameId]
     );
     connection.release();
+    newGameRows.forEach((row) => {
+      row.date_acquired = row.date_acquired.toISOString().slice(0, 10);
+    });
     return newGameRows[0];
   } else {
     query =
@@ -81,4 +84,35 @@ module.exports.deleteGame = async (id) => {
   const [{ affectedRows }] = await connection.query(query, [id]);
   connection.release();
   return affectedRows;
+};
+
+module.exports.getAllUsers = async () => {
+  const connection = await getConnection();
+  const [[user]] = await connection.query("SELECT * FROM users");
+  connection.release();
+  return user;
+};
+
+module.exports.getUserByUsername = async (username) => {
+  const connection = await getConnection();
+  const [[user]] = await connection.query(
+    "SELECT * FROM users WHERE username = ?",
+    [username]
+  );
+  connection.release();
+  return user;
+};
+
+module.exports.createUser = async (user) => {
+  const connection = await getConnection();
+  const query = "INSERT INTO users (username, password) VALUES (?, ?)";
+  const params = [user.username, user.password];
+  const [result] = await connection.query(query, params);
+  const newUserId = result.insertId;
+  const [[newUser]] = await connection.query(
+    "SELECT * FROM users WHERE id = ?",
+    [newUserId]
+  );
+  connection.release();
+  return newUser;
 };

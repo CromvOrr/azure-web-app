@@ -1,0 +1,27 @@
+<section id="login" class="login">
+  <div class="login-content">
+    <h2>Log In</h2>
+    <div>
+      <form action="/login" method="POST">
+        <input type="text" name="username" placeholder="Username" required />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+        <div class="submit-div">
+          <button class="submit-button" type="submit">Enter</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="register">
+      <a
+        >Not an admin yet?&nbsp;&nbsp;<span onclick="location.href='/register'"
+          >Register</span
+        ></a
+      >
+    </div>
+  </div>
+</section>

@@ -1,0 +1,72 @@
+<section id="more" class="more">
+  <div class="more-content">
+    <h2 id="add">Add a Game</h2>
+    <div class="add-game-content">
+      <form id="add-game-form">
+        <input type="text" id="title" placeholder="Title" required />
+        <input type="text" id="platform" placeholder="Platform" required />
+        <input
+          type="date"
+          id="date_acquired"
+          placeholder="Purchase Date"
+          required
+        />
+        <div class="add-game-div">
+          <button type="submit" class="add-game-button">Add</button>
+        </div>
+      </form>
+    </div>
+
+    <h2 id="search-look">Search database</h2>
+
+    <div class="search-bar">
+      <span id="search-icon" class="material-symbols-outlined"> search </span>
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Enter Title or Platform"
+      />
+    </div>
+
+    <div class="game-header" id="game-header-admin">
+      <li>
+        <a>
+          <p id="header-title">Title</p>
+          <p>Platform</p>
+          <p>Purchase Date</p>
+          <div class="__a-button">
+            <button class="__delete-button"></button>
+          </div>
+        </a>
+      </li>
+      <div class="horizontal-bar"></div>
+    </div>
+
+    <% function formatDate(date) { 
+    const d = new Date(date); 
+    const day = String(d.getDate() + 1).padStart(2, '0'); 
+    const month = String(d.getMonth() + 1).padStart(2, '0'); 
+    const year = d.getFullYear(); 
+    return `${day}.${month}.${year}`; 
+    } %>
+
+    <div class="game-container">
+      <ul class="game-ul" id="game-list">
+        <% games.forEach(game => { %>
+        <li id="game-<%= game.id %>">
+          <a>
+            <h3><%= game.title %></h3>
+            <p><%= game.platform %></p>
+            <p><%= formatDate(game.date_acquired) %></p>
+            <div class="a-button">
+              <button class="delete-button" data-id="<%= game.id %>">
+                Delete
+              </button>
+            </div>
+          </a>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</section>

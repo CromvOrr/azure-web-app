@@ -1,0 +1,136 @@
+<script>
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate() + 1).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    addDeleteFunctionality();
+  });
+
+  document
+    .getElementById("add-game-form")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const title = document.getElementById("title").value;
+      const platform = document.getElementById("platform").value;
+      const date_acquired = document.getElementById("date_acquired").value;
+      try {
+        const response = await fetch("/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            platform,
+            date_acquired,
+          }),
+        });
+
+        if (response.ok) {
+          const newGame = await response.json();
+          const gameList = document.getElementById("game-list");
+          const listItem = document.createElement("li");
+          listItem.id = `game-${newGame.id}`;
+          listItem.innerHTML = `
+          <a>
+            <h3>${newGame.title}</h3>
+            <p>${newGame.platform}</p>
+            <p>${formatDate(newGame.date_acquired)}</p>
+            <button class="delete-button" data-id="${
+              newGame.id
+            }">Delete</button>
+          </a>
+          `;
+          gameList.appendChild(listItem);
+          addDeleteFunctionality();
+          document.getElementById("add-game-form").reset();
+        } else {
+          alert("Failed to add game");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    });
+
+  function addDeleteFunctionality() {
+    const deleteButtons = document.querySelectorAll(".delete-button");
+    deleteButtons.forEach((button) => {
+      button.removeEventListener("click", handleDelete);
+      button.addEventListener("click", handleDelete);
+    });
+  }
+
+  async function handleDelete(event) {
+    const id = this.getAttribute("data-id");
+    try {
+      const response = await fetch(`/delete/${id}`, { method: "DELETE" });
+      if (response.ok) {
+        const gameItem = document.getElementById(`game-${id}`);
+        if (gameItem) {
+          gameItem.remove();
+        }
+      } else {
+        alert("Failed to delete game");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  document
+    .getElementById("search-input")
+    .addEventListener("keyup", async function () {
+      const query = this.value;
+
+      try {
+        const response = await fetch(`/search?query=${query}`, {
+          method: "GET",
+        });
+        const gameList = document.getElementById("game-list");
+        gameList.innerHTML = "";
+
+        if (response.ok) {
+          const games = await response.json();
+
+          if (games.length === 0) {
+            const noResultsMessage = document.createElement("p");
+            noResultsMessage.textContent = "No results found";
+            gameList.appendChild(noResultsMessage);
+          } else {
+            games.forEach((game) => {
+              const listItem = document.createElement("li");
+              listItem.id = `game-${game.id}`;
+              listItem.innerHTML = `
+            <a>
+              <h3>${game.title}</h3>
+              <p>${game.platform}</p>
+              <p>${formatDate(game.date_acquired)}</p>
+              <button class="delete-button" data-id="${game.id}">Delete</button>
+            </a>
+          `;
+              gameList.appendChild(listItem);
+            });
+
+            addDeleteFunctionality();
+          }
+        } else {
+          const noResultsMessage = document.createElement("p");
+          noResultsMessage.textContent = "No results found";
+          gameList.appendChild(noResultsMessage);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        const errorMessage = document.createElement("p");
+        errorMessage.textContent = "Error fetching results";
+        gameList.appendChild(errorMessage);
+      }
+
+      addDeleteFunctionality();
+    });
+</script>

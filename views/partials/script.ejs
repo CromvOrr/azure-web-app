@@ -1,27 +1,10 @@
 <script>
-  function addDeleteFunctionality() {
-    const deleteButtons = document.querySelectorAll(".delete-button");
-    deleteButtons.forEach((button) => {
-      button.removeEventListener("click", handleDelete);
-      button.addEventListener("click", handleDelete);
-    });
-  }
-
-  async function handleDelete(event) {
-    const id = this.getAttribute("data-id");
-    try {
-      const response = await fetch(`/delete/${id}`, { method: "DELETE" });
-      if (response.ok) {
-        const gameItem = document.getElementById(`game-${id}`);
-        if (gameItem) {
-          gameItem.remove();
-        }
-      } else {
-        alert("Failed to delete game");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate() + 1).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
   }
 
   document
@@ -49,12 +32,11 @@
               <a>
                 <h3>${game.title}</h3>
                 <p>${game.platform}</p>
-                <p>${game.date_acquired}</p>
+                <p>${formatDate(game.date_acquired)}</p>
               </a>
             `;
               gameList.appendChild(listItem);
             });
-            addDeleteFunctionality();
           }
         } else {
           document.getElementById("game-list").innerHTML =
@@ -66,6 +48,4 @@
           "<p>Error fetching results</p>";
       }
     });
-
-  addDeleteFunctionality();
 </script>
