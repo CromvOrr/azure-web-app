@@ -6,7 +6,6 @@ require("express-async-errors");
 const cookieParser = require("cookie-parser");
 
 const { initializeDatabase } = require("./server/config/database");
-const { initializeUsersDatabase } = require("./server/config/database-user");
 const mainRoutes = require("./server/routes/routes-main");
 const adminRoutes = require("./server/routes/routes-admin");
 
@@ -27,18 +26,11 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send("Something went wrong");
 });
 
-initializeDatabase()
-  .then(() => {
-    console.log("Database initialized");
-  })
-  .catch((err) => console.error("Failed to initialize the database\n" + err));
-
-initializeUsersDatabase()
-  .then(() => {
-    console.log("Database initialized");
-  })
-  .catch((err) => console.error("Failed to initialize the database\n" + err));
-
-app.listen(process.env.PORT, () =>
-  console.log("App is running on port " + process.env.PORT)
-);
+try {
+  initializeDatabase();
+  app.listen(process.env.PORT, () =>
+    console.log("App is running [port " + process.env.PORT + "]")
+  );
+} catch (err) {
+  console.error("Failed to initialize the database\n" + err);
+}

@@ -1,12 +1,22 @@
-const { getConnection } = require("../config/database");
+const mysql = require("mysql2/promise");
+
+const config = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
+};
+
+async function getConnection() {
+  const connection = await mysql.createConnection(config);
+  return connection;
+}
 
 module.exports.getAllGames = async () => {
   const connection = await getConnection();
   const [records] = await connection.query("SELECT * FROM games");
-  connection.release();
-  records.forEach((row) => {
-    row.date_acquired = row.date_acquired.toISOString().slice(0, 10);
-  });
+  connection.end();
   return records;
 };
 
@@ -16,7 +26,7 @@ module.exports.getGameById = async (id) => {
     "SELECT * FROM games WHERE id = ?",
     [id]
   );
-  connection.release();
+  connection.end();
   return record;
 };
 
@@ -30,10 +40,7 @@ module.exports.searchGames = async (query) => {
   const searchTerm = `%${query}%`;
 
   const [rows] = await connection.query(searchQuery, [searchTerm, searchTerm]);
-  connection.release();
-  rows.forEach((row) => {
-    row.date_acquired = row.date_acquired.toISOString().slice(0, 10);
-  });
+  connection.end();
   return rows;
 };
 
@@ -53,10 +60,7 @@ module.exports.addOrEditGame = async (obj, id = 0) => {
       "SELECT * FROM games WHERE id = ?",
       [newGameId]
     );
-    connection.release();
-    newGameRows.forEach((row) => {
-      row.date_acquired = row.date_acquired.toISOString().slice(0, 10);
-    });
+    connection.end();
     return newGameRows[0];
   } else {
     query =
@@ -69,10 +73,10 @@ module.exports.addOrEditGame = async (obj, id = 0) => {
         "SELECT * FROM games WHERE id = ?",
         [id]
       );
-      connection.release();
+      connection.end();
       return updatedGameRows[0];
     } else {
-      connection.release();
+      connection.end();
       return null;
     }
   }
@@ -82,14 +86,14 @@ module.exports.deleteGame = async (id) => {
   const connection = await getConnection();
   const query = "DELETE FROM games WHERE id = ?";
   const [{ affectedRows }] = await connection.query(query, [id]);
-  connection.release();
+  connection.end();
   return affectedRows;
 };
 
 module.exports.getAllUsers = async () => {
   const connection = await getConnection();
   const [[user]] = await connection.query("SELECT * FROM users");
-  connection.release();
+  connection.end();
   return user;
 };
 
@@ -99,7 +103,7 @@ module.exports.getUserByUsername = async (username) => {
     "SELECT * FROM users WHERE username = ?",
     [username]
   );
-  connection.release();
+  connection.end();
   return user;
 };
 
@@ -113,6 +117,6 @@ module.exports.createUser = async (user) => {
     "SELECT * FROM users WHERE id = ?",
     [newUserId]
   );
-  connection.release();
+  connection.end();
   return newUser;
 };
