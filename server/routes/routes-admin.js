@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -22,7 +22,7 @@ router.post("/login", async (req, res) => {
     const user = await service.getUserByUsername(username);
     if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcryptjs.compare(password, user.password);
     if (!isPasswordValid)
       return res.status(401).json({ message: "Invalid credentials" });
 
@@ -67,7 +67,7 @@ router.post("/register", async (req, res) => {
     if (existingUser)
       return res.status(400).json({ message: "Username already exists" });
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcryptjs.hash(password, 10);
     await service.createUser({
       username,
       password: hashedPassword,
