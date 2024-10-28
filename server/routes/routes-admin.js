@@ -5,26 +5,32 @@ const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET;
 
 const service = require("../services/service");
-const adminMain = "../views/layouts/admin";
-const adminLogin = "../views/layouts/admin-login";
+const accountLayout = "../views/layouts/account";
+const forbiddenLayout = "../views/layouts/forbidden";
+const adminLayout = "../views/layouts/admin";
 
 router.get("/login", async (req, res) => {
-  res.render("admin/login", { layout: adminMain });
+  res.render("admin/login", { layout: accountLayout });
 });
 
 router.get("/register", async (req, res) => {
-  res.render("admin/register", { layout: adminMain });
+  res.render("admin/register", { layout: accountLayout });
 });
 
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await service.getUserByUsername(username);
-    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+    if (!user)
+      return res.status(401).render("partials/message-invalid-credentials", {
+        layout: forbiddenLayout,
+      });
 
     const isPasswordValid = await bcryptjs.compare(password, user.password);
     if (!isPasswordValid)
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).render("partials/message-invalid-credentials", {
+        layout: forbiddenLayout,
+      });
 
     const token = jwt.sign({ userId: user.id, isAdmin: true }, jwtSecret, {
       expiresIn: "1h",
@@ -33,26 +39,36 @@ router.post("/login", async (req, res) => {
     res.redirect("/dashboard");
   } catch (error) {
     console.error("Error logging in:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res
+      .status(500)
+      .render("partials/message-internal-error", { layout: forbiddenLayout });
   }
 });
 
 function isAdmin(req, res, next) {
   const token = req.cookies.token;
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
+  if (!token)
+    return res.status(401).render("partials/message-unauthorized-session", {
+      layout: forbiddenLayout,
+    });
 
   try {
     const decoded = jwt.verify(token, jwtSecret);
     if (decoded.isAdmin) next();
-    else return res.status(403).json({ message: "Forbidden" });
+    else
+      return res.status(403).render("partials/message-unauthorized-action", {
+        layout: forbiddenLayout,
+      });
   } catch (error) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).render("partials/message-unauthorized-session", {
+      layout: forbiddenLayout,
+    });
   }
 }
 
 router.get("/dashboard", isAdmin, async (req, res) => {
   const games = await service.getAllGames();
-  res.render("admin/dashboard", { games, layout: adminLogin });
+  res.render("admin/dashboard", { games, layout: adminLayout });
 });
 
 router.get("/logout", isAdmin, async (req, res) => {
@@ -65,7 +81,9 @@ router.post("/register", async (req, res) => {
     const { username, password } = req.body;
     const existingUser = await service.getUserByUsername(username);
     if (existingUser)
-      return res.status(400).json({ message: "Username already exists" });
+      return res.status(400).render("partials/message-username-exists", {
+        layout: forbiddenLayout,
+      });
 
     const hashedPassword = await bcryptjs.hash(password, 10);
     await service.createUser({
@@ -75,7 +93,9 @@ router.post("/register", async (req, res) => {
     res.redirect("/login");
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(500).json({ message: "Error registering user" });
+    res.status(500).render("partials/message-registering-error", {
+      layout: forbiddenLayout,
+    });
   }
 });
 

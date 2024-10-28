@@ -38,7 +38,7 @@ section {
   top: 0;
   left: 0;
   width: 100%;
-  height: 6vh;
+  height: 6.5vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,8 +48,8 @@ section {
   box-shadow: 0 0 0.1rem var(--text-color);
 }
 
-#saying {
-  font-size: 2.5rem;
+.saying {
+  font-size: 2.8rem;
   color: var(--text-color);
   font-weight: 600;
   cursor: default;
@@ -75,10 +75,6 @@ section {
   color: var(--main-color);
   margin-bottom: 3.2rem;
   text-align: center;
-}
-
-#white {
-  color: var(--text-color);
 }
 
 .home-content p {
@@ -108,6 +104,7 @@ section {
   margin-bottom: 2rem;
   box-shadow: 0 0 1rem var(--main-color);
   transition: 0.5s ease;
+  border-radius: 5%;
 }
 
 .button a:hover {
@@ -124,7 +121,7 @@ section {
   background-color: var(--main-color);
   box-shadow: 0 0 1rem var(--main-color);
   transition: 0.5s ease;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1.5rem;
   border-radius: 5%;
   color: var(--bg-color);
@@ -173,7 +170,6 @@ section {
   outline: none;
   background-color: var(--bg-color);
   color: var(--text-color);
-  border-radius: 5px;
 }
 
 #search-icon {
@@ -328,7 +324,7 @@ section {
 .login-content {
   background-color: var(--header-footer-color);
   padding: 2rem;
-  box-shadow: 0rem 0rem 50rem rgba(0, 0, 0, 0.2); 
+  box-shadow: 0rem 0rem 50rem rgba(0, 0, 0, 0.2);
   width: 50vh;
   text-align: center;
 }
@@ -370,7 +366,7 @@ input[type="password"] {
   background-color: var(--main-color);
   box-shadow: 0 0 1rem var(--main-color);
   transition: 0.5s ease;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1.7rem;
   border-radius: 5%;
   color: var(--bg-color);
@@ -380,7 +376,7 @@ input[type="password"] {
   box-shadow: none;
 }
 
-#register {
+.register {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -389,14 +385,14 @@ input[type="password"] {
   margin-top: 3rem;
 }
 
-#register span {
+.register span {
   cursor: pointer;
   display: inline-block;
   color: var(--text-color);
   text-decoration: none;
 }
 
-#register span:hover {
+.register span:hover {
   color: var(--main-color);
 }
 
@@ -412,7 +408,7 @@ input[type="password"] {
 .add-game-content {
   background-color: var(--header-footer-color);
   padding: 2rem;
-  box-shadow: 0rem 0rem 2rem rgba(0, 0, 0, 0.2); 
+  box-shadow: 0rem 0rem 2rem rgba(0, 0, 0, 0.2);
   width: 100%;
   text-align: center;
   margin-bottom: 3rem;
@@ -472,7 +468,7 @@ input[type="password"] {
   background-color: var(--main-color);
   box-shadow: 0 0 1rem var(--main-color);
   transition: 0.5s ease;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1.7rem;
   border-radius: 5%;
   color: var(--bg-color);
@@ -492,7 +488,7 @@ input[type="password"] {
   background-color: var(--main-color);
   transition: 0.5s ease;
   box-shadow: none;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1.7rem;
   border-radius: 5%;
   color: var(--bg-color);
@@ -517,4 +513,11 @@ input[type="password"] {
   justify-content: center;
   align-items: center;
   background-color: var(--bg-color);
+}
+
+.forbidden-content {
+  background-color: var(--header-footer-color);
+  padding: 2rem;
+  width: 80vh;
+  text-align: center;
 }
