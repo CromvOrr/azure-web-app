@@ -528,3 +528,123 @@ input[type="password"] {
   width: 80vh;
   text-align: center;
 }
+
+@media (max-width: 991px) {
+  html {
+    font-size: 55%;
+  }
+
+  .header {
+    padding: 1.5rem 3%;
+    align-items: center;
+  }
+
+  section {
+    padding: 8rem 5% 2rem;
+  }
+
+  .home-content,
+  .more-content {
+    text-align: center;
+  }
+
+  #header-title {
+    text-align: center;
+    flex: 2;
+  }
+
+  .button,
+  .submit-div,
+  .add-game-div {
+    margin-top: 2rem;
+  }
+
+  .button a,
+  .login-button,
+  .submit-button,
+  .add-game-button,
+  .delete-button {
+    width: 10rem;
+    height: 3.5rem;
+    font-size: 1.4rem;
+  }
+
+  .footer-text a,
+  .footer p {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 50%;
+  }
+
+  .header,
+  .footer {
+    padding: 1rem 2%;
+  }
+
+  .home-content h1,
+  .home-content h3,
+  .more-content h1,
+  .more-content p {
+    font-size: 2.8rem;
+  }
+
+  .login input[type="text"],
+  input[type="password"],
+  .add-game-content input[type="text"],
+  .add-game-content input[type="date"] {
+    font-size: 1.5rem;
+  }
+
+  .game-header p {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search-bar,
+  .game-container {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .game-header {
+    list-style: none;
+    padding-right: calc(2rem + 10px);
+  }
+
+  .game-header li {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.8rem;
+    font-weight: 700;
+  }
+
+  .game-header li a {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  #header-title {
+    text-align: center;
+    flex: 2;
+  }
+
+  .game-header li p {
+    text-align: center;
+    flex: 1;
+  }
+
+  .game-header button {
+    background-color: var(--main-color);
+    color: var(--bg-color);
+    border-radius: 30%;
+    cursor: pointer;
+  }
+}
