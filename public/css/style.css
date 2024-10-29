@@ -216,6 +216,13 @@ section {
   flex: 1;
 }
 
+.game-header button {
+  background-color: var(--main-color);
+  color: var(--bg-color);
+  border-radius: 30%;
+  cursor: pointer;
+}
+
 .horizontal-bar {
   height: 2px;
   background-color: var(--main-color);
@@ -505,7 +512,7 @@ input[type="password"] {
   background-color: var(--bg-color);
 }
 
-.__delete-button {
+#__delete-button {
   cursor: default;
   width: 12rem;
   height: 4rem;

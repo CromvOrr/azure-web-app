@@ -51,9 +51,21 @@
     <div class="game-header">
       <li>
         <a>
-          <p id="header-title">Title</p>
-          <p>Platform</p>
-          <p>Purchase Date</p>
+          <p id="header-title">
+            Title
+            <button onclick="sortGames('title', 'ASC')">⯅</button>
+            <button onclick="sortGames('title', 'DESC')">⯆</button>
+          </p>
+          <p>
+            Platform
+            <button onclick="sortGames('platform', 'ASC')">⯅</button>
+            <button onclick="sortGames('platform', 'DESC')">⯆</button>
+          </p>
+          <p>
+            Purchase Date
+            <button onclick="sortGames('date_acquired', 'ASC')">⯅</button>
+            <button onclick="sortGames('date_acquired', 'DESC')">⯆</button>
+          </p>
         </a>
       </li>
       <div class="horizontal-bar"></div>

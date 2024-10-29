@@ -15,7 +15,9 @@ function initializeDatabase() {
       console.log("Cannot connect\nError:");
       throw err;
     } else {
-      console.log("Database connection established [port " + process.env.DB_PORT + "]");
+      console.log(
+        "Database connection established [port " + process.env.DB_PORT + "]"
+      );
       queryDatabase();
     }
   });
@@ -28,6 +30,11 @@ function initializeDatabase() {
         console.log("Using table: games");
       }
     );
+
+    // conn.query("DROP TABLE IF EXISTS users;", function (err, results, fields) {
+    //   if (err) throw err;
+    //   console.log("Dropped table: users");
+    // });
 
     conn.query(
       "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL UNIQUE, password VARCHAR(255) NOT NULL);",

@@ -35,4 +35,16 @@ router.get("/logout", async (req, res) => {
   res.redirect("/");
 });
 
+router.get("/games/sorted", async (req, res) => {
+  try {
+    const sortBy = req.query.sortBy || "title";
+    const order = req.query.order || "ASC";
+    const games = await service.getSortedGames(sortBy, order);
+    res.json(games);
+  } catch (error) {
+    console.error("Error retrieving sorted games:", error);
+    res.status(500).send("Error retrieving sorted games");
+  }
+});
+
 module.exports = router;

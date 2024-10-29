@@ -120,3 +120,14 @@ module.exports.createUser = async (user) => {
   connection.end();
   return newUser;
 };
+
+module.exports.getSortedGames = async (sortBy = "title", order = "ASC") => {
+  const connection = await getConnection();
+  const validSortFields = ["title", "platform", "date_acquired"];
+  const validOrder = order.toUpperCase() === "DESC" ? "DESC" : "ASC";
+  const sortField = validSortFields.includes(sortBy) ? sortBy : "title";
+  const query = `SELECT * FROM games ORDER BY ${sortField} ${validOrder}`;
+  const [records] = await connection.query(query);
+  connection.end();
+  return records;
+};
